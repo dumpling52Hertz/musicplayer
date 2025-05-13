@@ -2,6 +2,7 @@
 #include "InitPlayer.h"
 #include "ui_MusicPage.h"
 #include <QTime>
+#include <QTextCodec>
 MusicPage::MusicPage(QWidget *parent) :
     QWidget(parent)
 {
@@ -211,6 +212,13 @@ QString MusicPage::getCorrectUnicode(QFile &file)
         qDebug() << "Unicode编码";
         QTextStream stream(&file);
         return stream.readAll();
+    }
+    else//GBK编码格式
+    {
+        qDebug() << "GBK编码";
+        //将GBK格式的文本转换为Unicode编码
+        QTextDecoder *decoder = QTextCodec::codecForName("GBK")->makeDecoder();
+        return decoder->toUnicode(file.readAll());
     }
 }
 

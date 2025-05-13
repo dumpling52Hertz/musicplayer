@@ -119,7 +119,23 @@ void NormalPlayer::initConnect()
     connect(ui->next,&QPushButton::clicked,this,[&]{
         ShowPage::playMusic(ShowPage::musicIndex.siblingAtRow((ShowPage::musicIndex.row() + 1) % ShowPage::currentTable->rowCount()));
     });
-
+    //监控播放列表改变
+    connect(ui->order,&QPushButton::clicked,this,&NormalPlayer::changeListControl);
+    //点击musicPicture时改变QStackWidget容器为MusicPage
+    connect(ui->musicPicture,&QPushButton::clicked,this,[&]{
+            setShowPage(musicpage,ShowPageType::TypeMusicPage);
+    });
+    //添加删除红心对数据库同步操作
+    connect(ui->like,&QPushButton::clicked,this,[&]{
+        if(ui->like->isChecked())
+        {//放入我喜欢表中
+            InitPlayer::mediadb->controlLikeTable(ShowPage::currentTable->tableName(),ShowPage::currentMusicPath,false);
+        }
+        else
+        {//从表中删除
+            InitPlayer::mediadb->controlLikeTable(ShowPage::currentTable->tableName(),ShowPage::currentMusicPath,true);
+        }
+    });
 }
 
 void NormalPlayer::initWidget()

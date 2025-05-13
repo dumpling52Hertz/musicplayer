@@ -93,6 +93,20 @@ void InitPlayer::initMusicDB()
     //连接数据库
     mediadb->connectDB();
 }
+//设置圆角
+void InitPlayer::resizeEvent(QResizeEvent *e)
+{
+    QBitmap bmp(this->size());
+    bmp.fill();
+    QPainter painter(&bmp);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(Qt::black);
+    painter.setRenderHint(QPainter::Antialiasing);
+    //此处可修改圆角矩形大小，也可以绘制为其他想要的形状，比如圆形
+    painter.drawRoundedRect(bmp.rect(), 35, 35);
+    //该函数便使得QBitmap上像素为1的区域才显示出来
+    setMask(bmp);
+}
 
 //初始化static变量
 qreal InitPlayer::pixelRatio = 1.0;

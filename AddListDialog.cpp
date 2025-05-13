@@ -3,6 +3,22 @@
 #include "qstyleoption.h"
 #include "ui_AddListDialog.h"
 
+AddListDialog::AddListDialog(qint32 type,QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::AddListDialog)
+{
+    ui->setupUi(this);
+    //设置无框
+    setWindowFlag(Qt::FramelessWindowHint,true);
+    dialogType = type;
+    //初始化connect
+    connect(ui->TRUE,&QPushButton::clicked,this,&AddListDialog::setAction);
+    connect(ui->FALSE,&QPushButton::clicked,this,[this]{
+        close();
+    });
+    //设置隐藏label
+    ui->label_wrong->hide();
+}
 
 void AddListDialog::setTitle(QString title)
 {

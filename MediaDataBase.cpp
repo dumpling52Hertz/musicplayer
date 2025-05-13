@@ -1,4 +1,4 @@
-          #include "MediaDataBase.h"
+#include "MediaDataBase.h"
 #include "InitPlayer.h"
 #include "ShowPage.h"
 #include <QVariant>
@@ -94,6 +94,7 @@ bool MediaDataBase::importTable(QListWidget*& listWidget,QString name,qint32 sor
 bool MediaDataBase::createTable(QString table)
 {
     QSqlQuery query;
+    //创建音乐数据库，包含字段：id（主键），文件路径（必要），音乐名，作家，专辑名，文件大小（必要），音乐时长，封面（二进制存入）
     if(query.exec("CREATE TABLE \"" + table + "\" (ID INTEGER PRIMARY KEY AUTOINCREMENT, filepath TEXT NOT NULL, 歌曲 TEXT, 歌手 TEXT, 专辑名 TEXT, file_size INTEGER NOT NULL, 时长 VARCHAR, cover BLOB, UNIQUE (filepath, file_size))"))
     {
         return true;

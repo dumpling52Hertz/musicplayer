@@ -87,7 +87,7 @@ void WindowFrame::initConnect()
     connect(ui->btn_close,&QPushButton::released,this,&WindowFrame::btnmoveback);
     connect(ui->btn_close,&QPushButton::clicked,this,&QWidget::close);
     //设置ShowPage界面响应
-    connect(miniplayer,&MiniPlayer::changeShowPage,normalplayer,[](QWidget* page){
+    connect(miniplayer,&MiniPlayer::changeShowPage,normalplayer,[this](QWidget* page){
         normalplayer->setShowPage(page);
     });
 }
@@ -201,6 +201,45 @@ void WindowFrame::mouseReleaseEvent(QMouseEvent *e)
     }
 }
 
+void WindowFrame::resizeEvent(QResizeEvent *e)
+{
+    //如果迷你窗体拉伸，则自动转为普通窗体
+    if(playerframe == PlayerFrame::MiniFrame && width() >= minimumWidth() * 1.2)
+    {
+        isMiniToNormal = true;
+        ui->btn_windowControl_1->setChecked(false);//重置按钮按下属性，后续将重构按钮！！
+        emit playerFrameChanged(PlayerFrame::NormalFrame);
+    }
+    /*设置窗体圆角*/
+    if(playerframe != PlayerFrame::MaxFrame)
+    {
+        QBitmap bmp(this->size());
+        bmp.fill();
+        QPainter painter(&bmp);
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(Qt::black);
+        painter.setRenderHint(QPainter::Antialiasing);
+        //此处可修改圆角矩形大小，也可以绘制为其他想要的形状，比如圆形
+        painter.drawRoundedRect(bmp.rect(), 35, 35);
+        //该函数便使得QBitmap上像素为1的区域才显示出来
+        setMask(bmp);
+    }
+    else
+    {
+        QBitmap bmp(this->size());
+        bmp.fill();
+        QPainter painter(&bmp);
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(Qt::black);
+        painter.setRenderHint(QPainter::Antialiasing);
+        //此处可修改圆角矩形大小，也可以绘制为其他想要的形状，比如圆形
+        //该函数便使得QBitmap上像素为1的区域才显示出来
+        setMask(bmp);
+    }
+    e->accept();
+}
+
+//移动播放组件
 void WindowFrame::moveControls()
 {
     if(isMiniToNormal)
@@ -308,6 +347,57 @@ void WindowFrame::initTargetFrame(PlayerFrame targetFrame)
             setWindowFlag(Qt::WindowMaximizeButtonHint,true);
             mask->deleteStartMask();
         }
+    }
+    //目标框架为迷你框架
+    else //playerframe == PlayerFrame::MiniFrame
+    {
+        hide();
+        //再次设置系统窗口
+        showNormal();
+        setWindowTitle("Mini Player");
+        //重置窗体最小为控件所需最小空间,同时为控件拉伸响应做准备
+        setMinimumSize(440 / InitPlayer::pixelRatio,0);
+        //防止窗口飘至屏幕外
+        if(geometry().x() < 0)
+        {
+            move(0,geometry().y());
+        }
+        //防止播放器伸长距离过长
+        if(geometry().height() > 0.8 * InitPlayer::screenGeometry.height())
+        {
+            resize(ui->widget_miniplayer->width(),height() * 0.8);
+        }
+        /*加入启动遮罩*/
+        InitPlayer *mask = new InitPlayer;
+        //测算窗口大小
+        QRect maskRect(geometry().x(),geometry().y(),(ui->widget_miniplayer->width()),200 / InitPlayer::pixelRatio);
+        /*隐藏NormalWidget和MiniWidget*/
+        //normal部分隐藏
+        ui->widget_normalplayer->hide();
+        //mini部分隐藏
+        ui_mini->widget->hide();
+        ui_mini->frame_musicList->hide();
+        ui_mini->frame_musicList->hide();
+        ui_mini->widget_line->hide();
+        /*设置窗口控件改变*/
+        ui->btn_windowControl_1->setStyleSheet("QPushButton#btn_windowControl_1{image: url(:/WindowControls/res/miniToNormal.svg);}");
+        ui->btn_windowControl_2->setVisible(false);
+        //隐藏Logo
+        ui->logo->setVisible(false);
+        //开启遮罩
+        mask->addStartMask(maskRect,"");
+        //转移播放控制组件
+        moveControls();
+        /*设置新窗体*/
+        //聚拢控件
+        setMaximumSize(maskRect.size().width(),200 / InitPlayer::pixelRatio);
+        //重新设置迷你框架大小
+        ui->widget_miniplayer->setMaximumSize(16777215,16777215);
+        //重置最大值
+        setMaximumWidth(16777215);
+        //使得最大化按钮失效
+        setWindowFlag(Qt::WindowMaximizeButtonHint,false);
+        mask->deleteStartMask();
     }
     //重新展示窗体
     show();

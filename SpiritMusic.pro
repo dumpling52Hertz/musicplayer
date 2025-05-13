@@ -2,7 +2,6 @@ QT       += core gui widgets multimedia sql
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
-CONFIG += link_pkgconfig
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -13,6 +12,7 @@ SOURCES += \
     InitPlayer.cpp \
     ListItem.cpp \
     MediaDataBase.cpp \
+    MiniPlayer.cpp \
     MusicControl.cpp \
     MusicPage.cpp \
     NormalPlayer.cpp \
@@ -25,6 +25,7 @@ HEADERS += \
     InitPlayer.h \
     ListItem.h \
     MediaDataBase.h \
+    MiniPlayer.h \
     MusicControl.h \
     MusicPage.h \
     NormalPlayer.h \
@@ -34,6 +35,7 @@ HEADERS += \
 FORMS += \
     AddListDialog.ui \
     ListItem.ui \
+    MiniPlayer.ui \
     MusicPage.ui \
     NormalPlayer.ui \
     ShowPage.ui \
