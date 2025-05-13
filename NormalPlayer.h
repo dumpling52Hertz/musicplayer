@@ -1,11 +1,12 @@
 #ifndef NORMALPLAYER_H
 #define NORMALPLAYER_H
+
+
 #include "MiniPlayer.h"
 #include "MusicPage.h"
 #include <QWidget>
 #include <QStyleOption>
 #include <QPainter>
-#include <libswresample/swresample.h>
 namespace Ui {
 class NormalPlayer;
 }
@@ -59,5 +60,4 @@ private:
     MiniPlayer *miniplayer;//存储MiniPlayer类
     MusicPage *musicpage;//存储MusicPage
 };
-
 #endif // NORMALPLAYER_H

@@ -87,7 +87,7 @@ void WindowFrame::initConnect()
     connect(ui->btn_close,&QPushButton::released,this,&WindowFrame::btnmoveback);
     connect(ui->btn_close,&QPushButton::clicked,this,&QWidget::close);
     //设置ShowPage界面响应
-    connect(miniplayer,&MiniPlayer::changeShowPage,normalplayer,[this](QWidget* page){
+    connect(miniplayer,&MiniPlayer::changeShowPage,normalplayer,[](QWidget* page){
         normalplayer->setShowPage(page);
     });
 }

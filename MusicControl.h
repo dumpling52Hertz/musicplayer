@@ -11,13 +11,6 @@
 #include "MediaDataBase.h"
 #include "ui_NormalPlayer.h"
 #include "ui_MiniPlayer.h"
-#include <cmath>
-extern "C" {
-#include <libswresample/swresample.h>
-#include <libavutil/error.h>
-#include <libavutil/channel_layout.h>
-#include <libavutil/samplefmt.h>
-}
 
 class MusicControl : public QObject
 {

@@ -69,7 +69,7 @@ void InitPlayer::initWindow()
     /*添加遮罩*/
     //设置遮罩矩形值
     QRect maskRect((screenGeometry.width() - 1600 / pixelRatio) / 2 / pixelRatio,(screenGeometry.height() - 845  / pixelRatio) / 2 / pixelRatio,1600 / pixelRatio,845 / pixelRatio);
-    addStartMask(maskRect,"Spirit  Music");
+    addStartMask(maskRect,"Music");
 }
 
 //初始化播放器主框体
