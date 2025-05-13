@@ -1,6 +1,7 @@
 #include "ShowPage.h"
 #include "MusicControl.h"
 #include "WindowFrame.h"
+#include "ui_NormalPlayer.h"
 #include "ui_ShowPage.h"
 #include <QStandardPaths>
 #include "InitPlayer.h"

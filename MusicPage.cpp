@@ -2,7 +2,7 @@
 #include "InitPlayer.h"
 #include "ui_MusicPage.h"
 #include <QTime>
-#include <QTextCodec>
+#include <QStringEncoder>
 MusicPage::MusicPage(QWidget *parent) :
     QWidget(parent)
 {
@@ -202,23 +202,34 @@ void MusicPage::matchLine(QString allLyrics)
         }
     }
 }
-//得到正确的文本格式（仅支持识别utf-8和gbk）
 QString MusicPage::getCorrectUnicode(QFile &file)
 {
-    //获取头特征码(可能会误判)
+    // 获取头特征码(可能会误判)
     QByteArray test = file.read(3);
-    if(test.startsWith("\xEF\xBB\xBF"))//Unicode编码格式
+    if (test.startsWith("\xEF\xBB\xBF")) // Unicode编码格式
     {
         qDebug() << "Unicode编码";
         QTextStream stream(&file);
         return stream.readAll();
     }
-    else//GBK编码格式
+    else // GBK编码格式
     {
-        qDebug() << "GBK编码";
-        //将GBK格式的文本转换为Unicode编码
-        QTextDecoder *decoder = QTextCodec::codecForName("GBK")->makeDecoder();
-        return decoder->toUnicode(file.readAll());
+        qDebug() << "GBK编码转换";
+        QByteArray gbkData = file.readAll(); // 读取原始字节数据
+
+        // 创建GBK解码器
+        QStringDecoder decoder(QByteArrayLiteral("GBK")); // 使用 QByteArrayLiteral 来指定编码
+
+        // 执行解码
+        QString unicodeStr = decoder.decode(gbkData);
+
+        // 错误检查
+        if (decoder.hasError()) {
+            qWarning() << "GBK解码失败";
+            return QString();
+        }
+
+        return unicodeStr;
     }
 }
 

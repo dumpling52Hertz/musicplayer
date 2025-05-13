@@ -39,6 +39,7 @@ private:
     //存入匹配的时间标签和歌词
     static void matchLine(QString lyrics);
     //得到正确的文本格式
+    //得到正确的文本格式（仅支持识别utf-8和gbk）
     static QString getCorrectUnicode(QFile &file);
 signals:
 public slots:
