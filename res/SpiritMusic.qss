@@ -3,14 +3,14 @@
 /*-------------背景图片---------------*/
 
 QWidget#WindowFrame{
-    border-image: url(:/../新建文件夹 (2)/u=3287464784,725678985&fm=253&fmt=auto&app=138&f=JPEG.webp);
+    border-image: url(:/../background.jpg);
 }
 QWidget#InitPlayer{
-    border-image: url(:/../新建文件夹 (2)/u=3287464784,725678985&fm=253&fmt=auto&app=138&f=JPEG.webp);
+    border-image: url(:/../background.jpg);
 }
 /*AddListDialog*/
 QDialog#AddListDialog{
-    border-image: url(:/../新建文件夹 (2)/u=3287464784,725678985&fm=253&fmt=auto&app=138&f=JPEG.webp);
+    border-image: url(:/../background.jpg);
 }
 
 /*-------------WindowFrame---------------*/

@@ -51,5 +51,6 @@
     <qresource prefix="/backgroun">
         <file>background/background.png</file>
         <file>../../新建文件夹 (2)/u=3287464784,725678985&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG.webp</file>
+        <file>../../background.jpg</file>
     </qresource>
 </RCC>
